@@ -1,9 +1,9 @@
 package com.guleri24;
 
 public class MaxRegister {
-    private final Long count;
-    private final Long var;
-    private final Long total;
+    private final int count;
+    private final int var;
+    private final int total;
 
     private MaxRegister(MaxRegisterBuilder builder) {
         this.count = builder.count;
@@ -11,37 +11,45 @@ public class MaxRegister {
         this.total = builder.total;
     }
 
-    public Long getCount() {
+    public int getCount() {
         return count;
     }
 
-    public Long getVar() {
+    public int getVar() {
         return var;
     }
 
-    public Long getTotal() {
+    public int getTotal() {
         return total;
     }
 
-    public static class MaxRegisterBuilder {
-        private Long count;
-        private Long var;
-        private Long total;
+    @Override
+    public String toString() {
+        return "MaxRegister: count " + this.count + ", var " + this.var + ", total " + this.total;
+    }
 
-        public MaxRegisterBuilder count(Long count) {
+    public static class MaxRegisterBuilder {
+        private int count;
+        private int var;
+        private int total;
+
+        public MaxRegisterBuilder count(int count) {
             this.count = count;
             return this;
         }
 
-        public MaxRegisterBuilder var(Long var) {
+        public MaxRegisterBuilder var(int var) {
             this.var = var;
             return this;
         }
 
-        public MaxRegisterBuilder total(Long total) {
+        public MaxRegisterBuilder total(int total) {
             this.total = total;
             return this;
         }
 
+        public MaxRegister build() {
+            return new MaxRegister(this);
+        }
     }
 }
