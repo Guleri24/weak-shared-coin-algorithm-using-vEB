@@ -23,29 +23,27 @@ public class Main {
         vEB<MaxRegister> V = new vEB<>(n);
 
 
-        for (int k = 1; k < K; k++) {
-            int w_k = 2 * ((k - 1) / T);
+        for (int k = 1; k <= n; k++) {
+            int w_k = 2 * ((k - 1) % T);
             int vote = w_k;
             count++;
             var += pow(w_k, 2);
             total += vote;
 
-            MaxRegister R = new MaxRegister.MaxRegisterBuilder().count(count).var(var).total(total).build();
+            MaxRegister R = new MaxRegister(count, var, total);
 
             for (int j = 1; j < log(log(n)); j++) {
-                if ((k / sqrt(n)) != 0)
+                if ((k % sqrt(n)) != 0)
                     break;
                 /* update the summary array where V is the overall structure */
                 V.insert(j, R);
             }
-            if (k / n == 0) {
-
-                //System.out.println(V.getValue(R.getVar()));
+            if (k % n == 0) {
+                System.out.println(V.rootMaxRegister());
                 if (var >= K)
                     return total;
             }
         }
-
         return 0;
     }
 

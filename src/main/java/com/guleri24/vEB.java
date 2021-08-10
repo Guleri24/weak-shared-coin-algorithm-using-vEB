@@ -2,9 +2,10 @@ package com.guleri24;
 
 import static java.lang.Long.numberOfTrailingZeros;
 import static java.lang.Math.*;
+
 /**
  * Expected Functions:
- * insert(MaxRegister)
+ * insert(Key, MaxRegister)
  */
 public class vEB<MaxRegister extends com.guleri24.MaxRegister> {
     private static final int MIN_UNIVERSE_SIZE = 2;
@@ -12,12 +13,11 @@ public class vEB<MaxRegister extends com.guleri24.MaxRegister> {
     private final int universeSize;
     private final int shift, mask;
     private final vEB<MaxRegister> summary;
-    private final vEB<MaxRegister>[] clusters;
+    private final vEB[] clusters;
     private int min;
     private int max;
     private int minValue;
     private int maxValue;
-    private com.guleri24.MaxRegister R_root;
 
     public vEB(int universeSize) {
         this.universeSize = universeSize;
@@ -40,44 +40,12 @@ public class vEB<MaxRegister extends com.guleri24.MaxRegister> {
         }
     }
 
-
-    private int getUniverseSize() {
-        return universeSize;
-    }
-
     private int getMin() {
         return min;
     }
 
     private int getMax() {
         return max;
-    }
-
-    public int getValue(int key) {
-        if (key == min) return minValue;
-        if (key == max) return maxValue;
-        if (universeSize == 2) return NIL;
-        return clusters[high(key)].getValue(low(key));
-    }
-
-    private boolean contains(int key) {
-        if (key == min || key == max) return true;
-        if (universeSize == 2) return false;
-        return clusters[high(key)].contains(low(key));
-    }
-
-    private int successor(int key) {
-        if (universeSize == 2)
-            if (key == 0 && max == 1)
-                return 1;
-            else return NIL;
-        if (min != NIL && key < min)
-            return min;
-        int maxLow = clusters[high(key)].getMax();
-        if (maxLow != NIL && low(key) < maxLow) return index(high(key), clusters[high(key)].successor(low(key)));
-        int successorCluster = summary.successor(high(key));
-        if (successorCluster == NIL) return NIL;
-        return index(successorCluster, clusters[successorCluster].getMin());
     }
 
     private void emptyInsert(int key, MaxRegister R) {
@@ -94,15 +62,14 @@ public class vEB<MaxRegister extends com.guleri24.MaxRegister> {
         else {
 
             // Not Required for out use as in problem the key is growing
-           /* if (key < min) {
-           // Swapping
+            if (key < min) {
+                // Swapping
                 int tmpK = key;
-                MaxRegister tmpR = R;
                 key = min;
                 min = tmpK;
-                R.total = minValue;
-                minValue = tmpR.total;
-            }*/
+                R.setTotal(minValue);
+                minValue = R.getTotal();
+            }
 
             if (universeSize > 2)
                 if (clusters[high(key)].getMin() == NIL) {
@@ -116,16 +83,13 @@ public class vEB<MaxRegister extends com.guleri24.MaxRegister> {
         }
     }
 
+
     private int low(int x) {
         return x & mask;
     }
 
     private Integer high(Integer x) {
         return x >>> shift;
-    }
-
-    private int index(int x, int y) {
-        return (x << shift) | (y & mask);
     }
 
     private int lowerSquare(int i) {
@@ -137,6 +101,7 @@ public class vEB<MaxRegister extends com.guleri24.MaxRegister> {
     }
 
     // Todo : Root Max-Register
-    public com.guleri24.MaxRegister rootMaxRegister(vEB<MaxRegister> summary) {
+    public int rootMaxRegister() {
+        return summary.max;
     }
 }
