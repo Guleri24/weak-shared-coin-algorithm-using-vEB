@@ -1,17 +1,15 @@
 package com.guleri24;
 
-public class MaxRegister {
+public class Register {
     private final int count;
     private final int var;
     private int total;
 
-    public MaxRegister(int count, int var, int total) {
+    public Register(int count, int var, int total) {
         this.count = count;
         this.var = var;
         this.total = total;
     }
-
-
 
     public int getTotal() {
         return total;
