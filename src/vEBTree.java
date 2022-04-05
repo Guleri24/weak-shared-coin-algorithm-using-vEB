@@ -1,5 +1,3 @@
-package com.guleri24;
-
 import java.util.*;
 
 import static java.lang.Long.numberOfTrailingZeros;

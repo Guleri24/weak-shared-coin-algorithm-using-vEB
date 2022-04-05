@@ -1,5 +1,3 @@
-package com.guleri24;
-
 public class Register {
     private final int count;
     private final int var;
